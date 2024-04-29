@@ -22,7 +22,7 @@ jobs:
         run: |
           echo ${{ github.event.sender.id }}
           echo ${{ github.event.sender.login }}
-          #echo ${{ github.event.pull_request.title }}
+          echo ${{ github.event.pull_request.title }}
           
       - name: instant-merge
         if: github.event.sender.login == 'riprasad' && startsWith(github.event.pull_request.title, 'chore(deps):/ update must-gather')
