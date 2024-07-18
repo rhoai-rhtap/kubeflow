@@ -17,6 +17,9 @@ COPY odh-notebook-controller /workspace/odh-notebook-controller
 # and so that source changes don't invalidate our downloaded layer
 RUN cd /workspace/odh-notebook-controller && go mod download
 
+# Verify if the directory /go/pkg/mod/github.com/hashicorp exists
+RUN ls -l /go/pkg/mod/github.com/hashicorp || echo "Directory /go/pkg/mod/github.com/hashicorp does not exist"
+
 WORKDIR /workspace/odh-notebook-controller
 
 # Build
