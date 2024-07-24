@@ -1,5 +1,5 @@
 # --- Build the backend ---
-FROM node:12-buster-slim as backend
+FROM node:20-buster-slim as backend
 
 COPY ./backend/ ./src
 WORKDIR /src
@@ -9,7 +9,7 @@ RUN npm ci && \
     npm prune --production
 
 # --- Build the frontend ---
-FROM node:12-buster-slim as frontend
+FROM node:20-buster-slim as frontend
 
 COPY ./frontend ./src
 WORKDIR /src
@@ -19,7 +19,7 @@ RUN npm ci
 RUN npm run build -- --output-path=./dist/default --configuration=production
 
 # Step 2: Packages assets for serving
-FROM node:12.22.12-alpine AS serve
+FROM node:20.16.0-alpine AS serve
 
 ENV NODE_ENV=production
 WORKDIR /app
