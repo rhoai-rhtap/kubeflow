@@ -32,7 +32,7 @@ spec:
   - name: path-context
     value: components
   - name: prefetch-input
-    value: '{"type": "gomod", "path": "."}' 
+    value: '{"type": "gomod", "path": "components/odh-notebook-controller"}' 
   pipelineSpec:
     finally:
     - name: show-sbom
