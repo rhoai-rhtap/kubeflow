@@ -31,6 +31,8 @@ spec:
     value: notebook-controller/Dockerfile
   - name: path-context
     value: components
+  - name: prefetch-input
+    value: '{"type": "gomod", "path": "components/notebook-controller"}' 
   pipelineSpec:
     finally:
     - name: show-sbom
@@ -97,7 +99,7 @@ spec:
       description: Skip checks against built image
       name: skip-checks
       type: string
-    - default: "false"
+    - default: "true"
       description: Execute the build with network isolation
       name: hermetic
       type: string
