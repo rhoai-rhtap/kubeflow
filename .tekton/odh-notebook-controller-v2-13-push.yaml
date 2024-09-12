@@ -22,11 +22,13 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhoai-tenant/rhoai-v2-13/odh-notebook-controller-v2-13:{{revision}}
+    value: quay.io/rhoai/odh-notebook-controller:{{revision}}
   - name: dockerfile
     value: odh-notebook-controller/Dockerfile
   - name: path-context
     value: components
+  - name: prefetch-input
+    value: '{"type": "gomod", "path": "components/odh-notebook-controller"}' 
   pipelineSpec:
     finally:
     - name: show-sbom
@@ -93,7 +95,7 @@ spec:
       description: Skip checks against built image
       name: skip-checks
       type: string
-    - default: "false"
+    - default: "true"
       description: Execute the build with network isolation
       name: hermetic
       type: string
