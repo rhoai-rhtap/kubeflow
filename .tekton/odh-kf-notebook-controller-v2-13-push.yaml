@@ -22,7 +22,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/rhoai/odh-kf-notebook-controller:{{revision}}
+    value: quay.io/rhoai/odh-kf-notebook-controller-rhel8:{{revision}}
   - name: dockerfile
     value: notebook-controller/Dockerfile
   - name: path-context
