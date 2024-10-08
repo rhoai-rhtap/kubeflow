@@ -29,6 +29,8 @@ RUN cd /workspace/notebook-controller && go mod download
 
 WORKDIR /workspace/notebook-controller
 
+user root
+
 # Build
 RUN CGO_ENABLED=0 GOOS=linux GO111MODULE=on go build -tags strictfipsruntime  -a -mod=mod -o manager main.go
 
