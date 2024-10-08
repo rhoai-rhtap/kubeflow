@@ -1,25 +1,23 @@
 # Build arguments
 ARG SOURCE_CODE=.
 ARG CI_CONTAINER_VERSION="unknown"
-ARG GOLANG_VERSION=1.21
 
 # Use ubi8/go-toolset as base image
-FROM registry.access.redhat.com/ubi8/go-toolset:1.21 as builder
+FROM registry.access.redhat.com/ubi8/go-toolset@sha256:4ec05fd5b355106cc0d990021a05b71bbfb9231e4f5bdc0c5316515edf6a1c96 as builder
 ARG TARGETOS
 ARG TARGETARCH
 
+## Build args to be used at this step
 ARG SOURCE_CODE
 
-COPY go.mod go.mod
-COPY go.sum go.sum
-
-RUN go mod download
-
-# Copy the go source
-COPY main.go main.go
-COPY api/ api/
-
 WORKDIR /workspace
+
+# Copy the Go Modules manifests
+COPY ${SOURCE_CODE}/notebook-controller ./notebook-controller
+# This is necessary because the Jupyter controller now depends on
+# components/common
+COPY ${SOURCE_CODE}/common ./common
+
 
 # Copy the Go Modules manifests
 COPY notebook-controller /workspace/notebook-controller
