@@ -18,7 +18,6 @@ COPY ${SOURCE_CODE}/notebook-controller ./notebook-controller
 # components/common
 COPY ${SOURCE_CODE}/common ./common
 
-
 # Copy the Go Modules manifests
 COPY notebook-controller /workspace/notebook-controller
 COPY common /workspace/common
