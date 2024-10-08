@@ -41,8 +41,8 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 ARG CI_CONTAINER_VERSION
 
 ## Install additional packages
-#RUN microdnf install -y shadow-utils &&\
- #   microdnf clean all
+RUN microdnf install -y shadow-utils &&\
+    microdnf clean all
 
 ## Create a non-root user with UID 1001
 RUN useradd --uid 1001 --create-home --user-group --system rhods
