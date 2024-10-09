@@ -1,11 +1,16 @@
-# Build the manager binary
-#
-# The Docker context is expected to be:
-#
-# ${PATH_TO_KUBEFLOW/KUBEFLOW repo}/components
-#
-ARG GOLANG_VERSION=1.19
-FROM golang:${GOLANG_VERSION} as builder
+# Build arguments
+ARG SOURCE_CODE=.
+ARG CI_CONTAINER_VERSION="unknown"
+ARG GOLANG_VERSION=1.21
+
+# Use ubi8/go-toolset as base image
+FROM registry.access.redhat.com/ubi8/go-toolset@sha256:4ec05fd5b355106cc0d990021a05b71bbfb9231e4f5bdc0c5316515edf6a1c96 as builder
+ARG TARGETOS
+ARG TARGETARCH
+
+## Build args to be used at this step
+ARG SOURCE_CODE
+
 
 WORKDIR /workspace
 
@@ -19,19 +24,43 @@ RUN cd /workspace/odh-notebook-controller && go mod download
 
 WORKDIR /workspace/odh-notebook-controller
 
+USER root
+
 # Build
 RUN if [ "$(uname -m)" = "aarch64" ]; then \
-        CGO_ENABLED=0 GOOS=linux GOARCH=arm64 GO111MODULE=on go build -a -mod=mod -o manager main.go; \
-    else \
-        CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -mod=mod -o manager main.go; \
-    fi
+        CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -tags strictfipsruntime -a -o ./bin/manager main.go
 
-# Use distroless as minimal base image to package the manager binary
-# Refer to https://github.com/GoogleContainerTools/distroless for more details
-FROM gcr.io/distroless/base:debug
+# Use ubi8/ubi-minimal as base image
+FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+
+## Build args to be used at this step
+ARG CI_CONTAINER_VERSION
+
+## Install additional packages
+RUN microdnf install -y shadow-utils &&\
+    microdnf clean all
+
+## Create a non-root user with UID 1001
+RUN useradd --uid 1001 --create-home --user-group --system rhods
+
 WORKDIR /
 COPY --from=builder /workspace/odh-notebook-controller/manager .
 COPY --from=builder /workspace/odh-notebook-controller/third_party/license.txt third_party/license.txt
 #COPY --from=builder /go/pkg/mod/github.com/hashicorp third_party/hashicorp
 
-ENTRYPOINT ["/manager"]
+## Switch to a non-root user
+USER 1001:0
+
+ENTRYPOINT [ "/manager" ]
+
+LABEL com.redhat.component="odh-notebook-controller-container" \
+      name="managed-open-data-hub/odh-notebook-controller-rhel8" \
+      version="${CI_CONTAINER_VERSION}" \
+      git.url="${CI_KUBEFLOW_UPSTREAM_URL}" \
+      git.commit="${CI_KUBEFLOW_UPSTREAM_COMMIT}" \
+      summary="odh-notebook-controller" \
+      io.openshift.expose-services="" \
+      io.k8s.display-name="odh-notebook-controller" \
+      maintainer="['managed-open-data-hub@redhat.com']" \
+      description="odh-notebook-controller" \
+      com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
