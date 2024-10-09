@@ -31,7 +31,7 @@ WORKDIR /workspace/notebook-controller
 user root
 
 # Build
-RUN CGO_ENABLED=0 GOOS=linux GO111MODULE=on go build -tags strictfipsruntime  -a -mod=mod -o manager main.go
+RUN CGO_ENABLED=1 GOOS=linux GOARCH=${TARGETARCH} GO111MODULE=on go build -tags strictfipsruntime  -a -mod=mod -o manager main.go
 
 # Use ubi8/ubi-minimal as base image
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
