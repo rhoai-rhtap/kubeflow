@@ -27,8 +27,7 @@ WORKDIR /workspace/odh-notebook-controller
 USER root
 
 # Build
-RUN if [ "$(uname -m)" = "aarch64" ]; then \
-        CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -tags strictfipsruntime -a -o ./bin/manager main.go
+RUN CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -tags strictfipsruntime -a -o ./bin/manager main.go
 
 # Use ubi8/ubi-minimal as base image
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
