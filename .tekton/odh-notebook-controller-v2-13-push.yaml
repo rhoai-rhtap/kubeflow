@@ -29,7 +29,7 @@ spec:
   - name: path-context
     value: components
   - name: prefetch-input
-    value: '{"type": "gomod", "path": "components/odh-notebook-controller"}' 
+    value: [{"type": "gomod", "path": "components/odh-notebook-controller"}, {"type": "rpm", "path": "components/odh-notebook-controller"}]
   pipelineSpec:
     finally:
     - name: show-sbom
@@ -186,6 +186,8 @@ spec:
       params:
       - name: input
         value: $(params.prefetch-input)
+      - name: dev-package-managers
+        value: "true"
       runAfter:
       - clone-repository
       taskRef:
