@@ -12,23 +12,26 @@ ARG TARGETARCH
 ARG SOURCE_CODE
 
 
-WORKDIR /workspace
+#WORKDIR /workspace
 
+WORKDIR /opt/rhods
 # Copy the Go Modules manifests
-COPY notebook-controller /workspace/notebook-controller
-COPY odh-notebook-controller /workspace/odh-notebook-controller
+COPY ${SOURCE_CODE}/notebook-controller ./notebook-controller
+COPY ${SOURCE_CODE}/odh-notebook-controller ./odh-notebook-controller
 
-# cache deps before building and copying source so that we don't need to re-download as much
-# and so that source changes don't invalidate our downloaded layer
-RUN cd /workspace/odh-notebook-controller && go mod download
+WORKDIR /opt/rhods/odh-notebook-controller
 
-WORKDIR /workspace/odh-notebook-controller
-
+## Build the odh-notebook-controller
 USER root
 
 # Build
 RUN CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -tags strictfipsruntime -a -o ./bin/manager main.go
 
+# cache deps before building and copying source so that we don't need to re-download as much
+# and so that source changes don't invalidate our downloaded layer
+#RUN cd /workspace/odh-notebook-controller && go mod download
+
+#WORKDIR /workspace/odh-notebook-controller
 # Use ubi8/ubi-minimal as base image
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
