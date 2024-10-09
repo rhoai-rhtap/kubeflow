@@ -46,9 +46,12 @@ RUN useradd --uid 1001 --create-home --user-group --system rhods
 ## Set workdir directory to user home
 WORKDIR /home/rhods
 
+## Copy odh-notebook-controller-manager binary from builder stage
+COPY --from=builder /opt/rhods/odh-notebook-controller/bin/manager .
 
-COPY --from=builder /workspace/odh-notebook-controller/manager .
-COPY --from=builder /workspace/odh-notebook-controller/third_party/license.txt third_party/license.txt
+
+#COPY --from=builder /workspace/odh-notebook-controller/manager .
+#COPY --from=builder /workspace/odh-notebook-controller/third_party/license.txt third_party/license.txt
 #COPY --from=builder /go/pkg/mod/github.com/hashicorp third_party/hashicorp
 
 ## Switch to a non-root user
