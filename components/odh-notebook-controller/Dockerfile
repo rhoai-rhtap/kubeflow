@@ -42,7 +42,11 @@ RUN microdnf install -y shadow-utils &&\
 ## Create a non-root user with UID 1001
 RUN useradd --uid 1001 --create-home --user-group --system rhods
 
-WORKDIR /
+
+## Set workdir directory to user home
+WORKDIR /home/rhods
+
+
 COPY --from=builder /workspace/odh-notebook-controller/manager .
 COPY --from=builder /workspace/odh-notebook-controller/third_party/license.txt third_party/license.txt
 #COPY --from=builder /go/pkg/mod/github.com/hashicorp third_party/hashicorp
