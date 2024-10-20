@@ -50,7 +50,7 @@ RUN useradd --uid 1001 --create-home --user-group --system rhods
 WORKDIR /home/rhods
 
 ## Copy odh-notebook-controller-manager binary from builder stage
-COPY --from=builder /opt/rhods/odh-notebook-controller/bin/manager .
+COPY --from=builder /opt/rhods/odh-notebook-controller/bin/manager /manager
 
 
 #COPY --from=builder /workspace/odh-notebook-controller/manager .
