@@ -1,6 +1,73 @@
+# # Build arguments
+# ARG SOURCE_CODE=.
+# ARG CI_CONTAINER_VERSION="unknown"
+
+# # Use ubi8/go-toolset as base image
+# FROM registry.access.redhat.com/ubi8/go-toolset@sha256:4ec05fd5b355106cc0d990021a05b71bbfb9231e4f5bdc0c5316515edf6a1c96 as builder
+# ARG TARGETOS
+# ARG TARGETARCH
+
+# ## Build args to be used at this step
+# ARG SOURCE_CODE
+
+# WORKDIR /workspace
+
+# # Copy the Go Modules manifests
+# COPY ${SOURCE_CODE}/notebook-controller ./notebook-controller
+# # This is necessary because the Jupyter controller now depends on
+# # components/common
+# COPY ${SOURCE_CODE}/common ./common
+
+# # Copy the Go Modules manifests
+# COPY notebook-controller /workspace/notebook-controller
+# COPY common /workspace/common
+
+# # cache deps before building and copying source so that we don't need to re-download as much
+# # and so that source changes don't invalidate our downloaded layer
+# RUN cd /workspace/notebook-controller && go mod download
+
+# WORKDIR /workspace/notebook-controller
+
+# user root
+
+# # Build
+# RUN CGO_ENABLED=1 GOOS=linux GOARCH=${TARGETARCH} GO111MODULE=on go build -tags strictfipsruntime  -a -mod=mod -o manager main.go
+
+# # Use ubi8/ubi-minimal as base image
+# FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+
+# ## Build args to be used at this step
+# ARG CI_CONTAINER_VERSION
+
+# ## Install additional packages
+# RUN microdnf install -y shadow-utils &&\
+#     microdnf clean all
+
+# ## Create a non-root user with UID 1001
+# RUN useradd --uid 1001 --create-home --user-group --system rhods
+
+# WORKDIR /home/rhods
+
+# COPY --from=builder /workspace/notebook-controller/manager .
+# COPY --from=builder /workspace/notebook-controller/third_party/license.txt third_party/license.txt
+# # COPY --from=builder /go/pkg/mod/github.com/hashicorp third_party/hashicorp
+# ENTRYPOINT ["/manager"]
+
+# LABEL com.redhat.component="odh-kf-notebook-controller-container" \
+#       name="managed-open-data-hub/odh-kf-notebook-controller-rhel8" \
+#       version="${CI_CONTAINER_VERSION}" \
+#       git.url="${CI_KUBEFLOW_UPSTREAM_URL}" \
+#       git.commit="${CI_KUBEFLOW_UPSTREAM_COMMIT}" \
+#       summary="odh-kf-notebook-controller" \
+#       io.openshift.expose-services="" \
+#       io.k8s.display-name="odh-kf-notebook-controller" \
+#       maintainer="['managed-open-data-hub@redhat.com']" \
+#       description="odh-kf-notebook-controller" \
+#       com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
+
+
 # Build arguments
 ARG SOURCE_CODE=.
-ARG CI_CONTAINER_VERSION="unknown"
 
 # Use ubi8/go-toolset as base image
 FROM registry.access.redhat.com/ubi8/go-toolset@sha256:4ec05fd5b355106cc0d990021a05b71bbfb9231e4f5bdc0c5316515edf6a1c96 as builder
@@ -10,34 +77,31 @@ ARG TARGETARCH
 ## Build args to be used at this step
 ARG SOURCE_CODE
 
-WORKDIR /workspace
-
+WORKDIR /opt/rhods
 # Copy the Go Modules manifests
 COPY ${SOURCE_CODE}/notebook-controller ./notebook-controller
+
 # This is necessary because the Jupyter controller now depends on
 # components/common
 COPY ${SOURCE_CODE}/common ./common
 
-# Copy the Go Modules manifests
-COPY notebook-controller /workspace/notebook-controller
-COPY common /workspace/common
+# Update building workdir
+WORKDIR /opt/rhods/notebook-controller
+
+## Build the odh-notebook-controller
+USER root
+
+# Build
+RUN CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} GO111MODULE=on go build -tags strictfipsruntime -a -mod=mod -o manager main.go
 
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
-RUN cd /workspace/notebook-controller && go mod download
+#RUN cd /workspace/odh-notebook-controller && go mod download
 
-WORKDIR /workspace/notebook-controller
-
-user root
-
-# Build
-RUN CGO_ENABLED=1 GOOS=linux GOARCH=${TARGETARCH} GO111MODULE=on go build -tags strictfipsruntime  -a -mod=mod -o manager main.go
-
+#WORKDIR /workspace/odh-notebook-controller
 # Use ubi8/ubi-minimal as base image
-FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+FROM registry.redhat.io/ubi8/ubi-minimal@sha256:7583ca0ea52001562bd81a961da3f75222209e6192e4e413ee226cff97dbd48c
 
-## Build args to be used at this step
-ARG CI_CONTAINER_VERSION
 
 ## Install additional packages
 RUN microdnf install -y shadow-utils &&\
@@ -46,22 +110,24 @@ RUN microdnf install -y shadow-utils &&\
 ## Create a non-root user with UID 1001
 RUN useradd --uid 1001 --create-home --user-group --system rhods
 
+## Set workdir directory to user home
 WORKDIR /home/rhods
 
-COPY --from=builder /workspace/notebook-controller/manager .
-COPY --from=builder /workspace/notebook-controller/third_party/license.txt third_party/license.txt
-# COPY --from=builder /go/pkg/mod/github.com/hashicorp third_party/hashicorp
-ENTRYPOINT ["/manager"]
+## Copy odh-notebook-controller-manager binary from builder stage
+COPY --from=builder /opt/rhods/odh-notebook-controller/bin/manager .
 
-LABEL com.redhat.component="odh-kf-notebook-controller-container" \
-      name="managed-open-data-hub/odh-kf-notebook-controller-rhel8" \
-      version="${CI_CONTAINER_VERSION}" \
-      git.url="${CI_KUBEFLOW_UPSTREAM_URL}" \
-      git.commit="${CI_KUBEFLOW_UPSTREAM_COMMIT}" \
-      summary="odh-kf-notebook-controller" \
-      io.openshift.expose-services="" \
-      io.k8s.display-name="odh-kf-notebook-controller" \
+## Switch to a non-root user
+USER 1001:0
+
+ENTRYPOINT [ "/manager" ]
+
+LABEL com.redhat.component="odh-notebook-controller-container" \
+      name="managed-open-data-hub/odh-notebook-controller-rhel8" \
+      description="odh-notebook-controller" \
+      summary="odh-notebook-controller" \
       maintainer="['managed-open-data-hub@redhat.com']" \
-      description="odh-kf-notebook-controller" \
+      io.openshift.expose-services="" \
+      io.k8s.display-name="odh-notebook-controller" \
+      io.k8s.description="odh-notebook-controller" \
       com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
 
