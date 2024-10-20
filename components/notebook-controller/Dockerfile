@@ -117,7 +117,7 @@ WORKDIR /home/rhods
 #COPY --from=builder /opt/rhods/odh-notebook-controller/bin/manager .
 
 COPY --from=builder \
-      /opt/rhods/notebook-controller/manager .
+      /opt/rhods/notebook-controller/manager /manager
 
 #COPY --from=builder /workspace/notebook-controller/manager .
 
@@ -126,13 +126,5 @@ USER 1001:0
 
 ENTRYPOINT [ "/manager" ]
 
-LABEL com.redhat.component="odh-notebook-controller-container" \
-      name="managed-open-data-hub/odh-notebook-controller-rhel8" \
-      description="odh-notebook-controller" \
-      summary="odh-notebook-controller" \
-      maintainer="['managed-open-data-hub@redhat.com']" \
-      io.openshift.expose-services="" \
-      io.k8s.display-name="odh-notebook-controller" \
-      io.k8s.description="odh-notebook-controller" \
-      com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
+
 
