@@ -114,7 +114,12 @@ RUN useradd --uid 1001 --create-home --user-group --system rhods
 WORKDIR /home/rhods
 
 ## Copy odh-notebook-controller-manager binary from builder stage
-COPY --from=builder /opt/rhods/odh-notebook-controller/bin/manager .
+#COPY --from=builder /opt/rhods/odh-notebook-controller/bin/manager .
+
+COPY --from=builder \
+      /opt/rhods/notebook-controller/bin/manager \
+      /manager
+
 
 ## Switch to a non-root user
 USER 1001:0
