@@ -92,7 +92,8 @@ WORKDIR /opt/rhods/notebook-controller
 USER root
 
 # Build
-RUN CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} GO111MODULE=on go build -tags strictfipsruntime -a -mod=mod -o manager main.go
+#RUN CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} GO111MODULE=on go build -tags strictfipsruntime -a -mod=mod -o manager main.go
+RUN  CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -tags strictfipsruntime -a -o ./bin/manager main.go
 
 # cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
@@ -117,7 +118,12 @@ WORKDIR /home/rhods
 #COPY --from=builder /opt/rhods/odh-notebook-controller/bin/manager .
 
 COPY --from=builder \
-      /opt/rhods/notebook-controller/manager /manager
+      /opt/rhods/notebook-controller/bin/manager \
+      /manager
+
+
+#COPY --from=builder \
+#      /opt/rhods/notebook-controller/manager /manager
 
 #COPY --from=builder /workspace/notebook-controller/manager .
 
