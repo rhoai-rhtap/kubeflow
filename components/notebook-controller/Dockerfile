@@ -92,12 +92,8 @@ WORKDIR /opt/rhods/notebook-controller
 USER root
 
 # Build
-#RUN CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} GO111MODULE=on go build -tags strictfipsruntime -a -mod=mod -o manager main.go
 RUN  CGO_ENABLED=1 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} go build -tags strictfipsruntime -a -o ./bin/manager main.go
 
-# cache deps before building and copying source so that we don't need to re-download as much
-# and so that source changes don't invalidate our downloaded layer
-#RUN cd /workspace/odh-notebook-controller && go mod download
 
 #WORKDIR /workspace/odh-notebook-controller
 # Use ubi8/ubi-minimal as base image
@@ -114,18 +110,10 @@ RUN useradd --uid 1001 --create-home --user-group --system rhods
 ## Set workdir directory to user home
 WORKDIR /home/rhods
 
-## Copy odh-notebook-controller-manager binary from builder stage
-#COPY --from=builder /opt/rhods/odh-notebook-controller/bin/manager .
-
 COPY --from=builder \
       /opt/rhods/notebook-controller/bin/manager \
       /manager
 
-
-#COPY --from=builder \
-#      /opt/rhods/notebook-controller/manager /manager
-
-#COPY --from=builder /workspace/notebook-controller/manager .
 
 ## Switch to a non-root user
 USER 1001:0
