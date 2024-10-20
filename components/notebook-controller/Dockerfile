@@ -117,9 +117,9 @@ WORKDIR /home/rhods
 #COPY --from=builder /opt/rhods/odh-notebook-controller/bin/manager .
 
 COPY --from=builder \
-      /opt/rhods/notebook-controller/bin/manager \
-      /manager
+      /opt/rhods/notebook-controller/manager .
 
+#COPY --from=builder /workspace/notebook-controller/manager .
 
 ## Switch to a non-root user
 USER 1001:0
