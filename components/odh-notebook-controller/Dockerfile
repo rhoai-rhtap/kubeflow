@@ -1,4 +1,5 @@
 # Build arguments
+#
 ARG SOURCE_CODE=.
 ARG CI_CONTAINER_VERSION="unknown"
 ARG GOLANG_VERSION=1.21
