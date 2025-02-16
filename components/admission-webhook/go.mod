@@ -3,7 +3,7 @@ module github.com/kubeflow/kubeflow/components/admission-webhook
 go 1.17
 
 require (
-	github.com/mattbaird/jsonpatch v0.0.0-20171005235357-81af80346b1a
+	github.com/mattbaird/jsonpatch v0.0.0-20240118010651-0ba75a80ca38
 	github.com/onsi/gomega v1.17.0
 	golang.org/x/net v0.0.0-20211209124913-491a49abca63
 	k8s.io/api v0.23.0
