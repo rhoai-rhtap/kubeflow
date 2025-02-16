@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/aws/aws-sdk-go v1.44.22
 	github.com/cenkalti/backoff v2.2.1+incompatible
-	github.com/go-logr/logr v1.2.0
+	github.com/go-logr/logr v1.4.2
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.18.1
 	github.com/pkg/errors v0.9.1
