@@ -3,7 +3,7 @@ module github.com/kubeflow/kubeflow/components/profile-controller
 go 1.17
 
 require (
-	github.com/aws/aws-sdk-go v1.44.22
+	github.com/aws/aws-sdk-go v1.55.6
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/go-logr/logr v1.2.0
 	github.com/onsi/ginkgo v1.16.5
