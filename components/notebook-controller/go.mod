@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/go-logr/logr v1.2.0
-	github.com/kubeflow/kubeflow/components/common v0.0.0-20220218084159-4ad0158e955e
+	github.com/kubeflow/kubeflow/components/common v0.0.0-20250219160841-bdc9bb2cfa5b
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.17.0
 	github.com/prometheus/client_golang v1.11.0
