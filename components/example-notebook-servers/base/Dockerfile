@@ -1,5 +1,5 @@
 # Use the respective Makefile to build the image.
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 # common environemnt variables
 ENV NB_USER jovyan
