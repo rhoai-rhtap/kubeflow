@@ -19,7 +19,7 @@ RUN npm ci
 RUN npm run build -- --output-path=./dist/default --configuration=production
 
 # Step 2: Packages assets for serving
-FROM node:12.22.12-alpine AS serve
+FROM node:22.19.0-alpine AS serve
 
 ENV NODE_ENV=production
 WORKDIR /app
