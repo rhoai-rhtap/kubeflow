@@ -3,7 +3,7 @@ module github.com/kubeflow/kubeflow/components/notebook-controller
 go 1.19
 
 require (
-	github.com/go-logr/logr v1.2.0
+	github.com/go-logr/logr v1.4.1
 	github.com/kubeflow/kubeflow/components/common v0.0.0-20220218084159-4ad0158e955e
 	github.com/onsi/ginkgo v1.16.5
 	github.com/onsi/gomega v1.17.0
@@ -67,7 +67,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/apiextensions-apiserver v0.23.0 // indirect
 	k8s.io/component-base v0.23.0 // indirect
-	k8s.io/klog/v2 v2.30.0 // indirect
+	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20211115234752-e816edb12b65 // indirect
 	k8s.io/utils v0.0.0-20210930125809-cb0fa318a74b // indirect
 	sigs.k8s.io/json v0.0.0-20211020170558-c049b76a60c6 // indirect
