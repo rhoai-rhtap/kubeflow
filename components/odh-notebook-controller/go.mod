@@ -9,7 +9,7 @@ require (
 	github.com/onsi/gomega v1.17.0
 	github.com/openshift/api v0.0.0-20190924102528-32369d4db2ad
 	github.com/pkg/errors v0.9.1
-	github.com/stretchr/testify v1.8.3
+	github.com/stretchr/testify v1.11.1
 	go.uber.org/zap v1.19.1
 	k8s.io/api v0.24.3
 	k8s.io/apiextensions-apiserver v0.24.2
