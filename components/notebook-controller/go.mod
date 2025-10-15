@@ -1,6 +1,8 @@
 module github.com/kubeflow/kubeflow/components/notebook-controller
 
-go 1.19
+go 1.22
+
+toolchain go1.24.6
 
 require (
 	github.com/go-logr/logr v1.2.0
@@ -51,6 +53,7 @@ require (
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.19.1 // indirect
+	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/oauth2 v0.7.0 // indirect
@@ -72,7 +75,7 @@ require (
 	k8s.io/utils v0.0.0-20210930125809-cb0fa318a74b // indirect
 	sigs.k8s.io/json v0.0.0-20211020170558-c049b76a60c6 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.2.0 // indirect
-	sigs.k8s.io/yaml v1.3.0 // indirect
+	sigs.k8s.io/yaml v1.6.0 // indirect
 )
 
 replace google.golang.org/grpc => google.golang.org/grpc v1.56.3

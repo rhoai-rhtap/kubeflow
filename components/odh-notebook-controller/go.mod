@@ -1,6 +1,8 @@
 module github.com/opendatahub-io/kubeflow/components/odh-notebook-controller
 
-go 1.19
+go 1.22
+
+toolchain go1.24.6
 
 require (
 	github.com/go-logr/logr v1.2.3
@@ -65,6 +67,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
+	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/oauth2 v0.7.0 // indirect
@@ -84,7 +87,7 @@ require (
 	k8s.io/kube-openapi v0.0.0-20220328201542-3ee0da9b0b42 // indirect
 	sigs.k8s.io/json v0.0.0-20211208200746-9f7c6b3444d2 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.2.1 // indirect
-	sigs.k8s.io/yaml v1.3.0 // indirect
+	sigs.k8s.io/yaml v1.6.0 // indirect
 )
 
 replace google.golang.org/grpc => google.golang.org/grpc v1.56.3
