@@ -1,6 +1,6 @@
 module github.com/kubeflow/kubeflow/components/admission-webhook
 
-go 1.17
+go 1.23
 
 require (
 	github.com/mattbaird/jsonpatch v0.0.0-20171005235357-81af80346b1a
@@ -42,7 +42,7 @@ require (
 	k8s.io/klog/v2 v2.30.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20211115234752-e816edb12b65 // indirect
 	k8s.io/utils v0.0.0-20211116205334-6203023598ed // indirect
-	sigs.k8s.io/json v0.0.0-20211020170558-c049b76a60c6 // indirect
+	sigs.k8s.io/json v0.0.0-20250730193827-2d320260d730 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.2.1 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
