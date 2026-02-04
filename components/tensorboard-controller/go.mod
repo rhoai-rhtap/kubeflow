@@ -1,6 +1,6 @@
 module github.com/kubeflow/kubeflow/components/tensorboard-controller
 
-go 1.17
+go 1.22.0
 
 require (
 	github.com/go-logr/logr v1.2.0
@@ -43,7 +43,7 @@ require (
 	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.11.0 // indirect
-	github.com/prometheus/client_model v0.2.0 // indirect
+	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.28.0 // indirect
 	github.com/prometheus/procfs v0.6.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
@@ -59,7 +59,7 @@ require (
 	golang.org/x/time v0.0.0-20210723032227-1f47c861a9ac // indirect
 	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/protobuf v1.27.1 // indirect
+	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
