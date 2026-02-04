@@ -1,6 +1,6 @@
 module github.com/kubeflow/kubeflow/components/tensorboard-controller
 
-go 1.17
+go 1.21
 
 require (
 	github.com/go-logr/logr v1.2.0
@@ -31,7 +31,7 @@ require (
 	github.com/go-logr/zapr v1.2.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/google/go-cmp v0.5.5 // indirect
+	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/gofuzz v1.1.0 // indirect
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/googleapis/gnostic v0.5.5 // indirect
