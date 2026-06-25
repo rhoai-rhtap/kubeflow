@@ -62,7 +62,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	istio.io/api v0.0.0-20201125194658-3cee6a1d3ab4
 	istio.io/client-go v1.8.0
-	istio.io/gogo-genproto v0.0.0-20190930162913-45029607206a // indirect
+	istio.io/gogo-genproto v0.0.0-20230705213215-8f59b5a7ddde // indirect
 	k8s.io/api v0.18.1
 	k8s.io/apimachinery v0.18.1
 	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible
